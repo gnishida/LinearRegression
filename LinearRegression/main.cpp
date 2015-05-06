@@ -62,6 +62,8 @@ int main(int argc,char *argv[]) {
 		cout << "   (80% for training data, 20% for test data)" << endl;
 	}
 	cout << "-----------------------" << endl;
+	cout << "Condition number: " << lr.conditionNumber() << endl;
+	cout << "-----------------------" << endl;
 	cout << "Error: " << endl << error << endl;
 	cout << endl;
 
