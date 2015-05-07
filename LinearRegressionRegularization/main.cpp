@@ -1,6 +1,6 @@
 ﻿#include <stdio.h>
 #include "MLUtils.h"
-#include "LinearRegression.h"
+#include "LinearRegressionRegularization.h"
 
 using namespace std;
 
@@ -38,7 +38,7 @@ int main(int argc,char *argv[]) {
 	ml::splitDataset(X, 0.9f, trainX, testX);
 	ml::splitDataset(Y, 0.9f, trainY, testY);
 
-	LinearRegression lr;
+	LinearRegressionRegularization lr;
 	cv::Mat_<double> error;
 	if (test_type == 0) {
 		lr.train(X, Y);
