@@ -1,5 +1,6 @@
 #include "LinearRegression.h"
 
+using namespace std;
 
 LinearRegression::LinearRegression() {
 }

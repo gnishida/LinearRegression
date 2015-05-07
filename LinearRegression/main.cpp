@@ -30,13 +30,14 @@ int main(int argc,char *argv[]) {
 	ml::normalizeDataset(X, X, muX, maxX);
 	ml::normalizeDataset(Y, Y, muY, maxY);
 
+	// バイアスの列を追加
+	ml::addBias(X);
+
 	// テストデータの分割
 	cv::Mat_<double> trainX, trainY, testX, testY;
 	cv::Mat_<double> validX, validY;
-	//ml::splitDataset(X, 0.9f, trainX, testX);
-	//ml::splitDataset(Y, 0.9f, trainY, testY);
-	ml::splitDataset(X, 0.8f, 0.1f, trainX, validX, testX);
-	ml::splitDataset(Y, 0.8f, 0.1f, trainY, validY, testY);
+	ml::splitDataset(X, 0.9f, trainX, testX);
+	ml::splitDataset(Y, 0.9f, trainY, testY);
 
 	LinearRegression lr;
 	cv::Mat_<double> error;
