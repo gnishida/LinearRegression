@@ -41,13 +41,13 @@ int main(int argc,char *argv[]) {
 	LinearRegressionRegularization lr;
 	cv::Mat_<double> error;
 	if (test_type == 0) {
-		lr.train(X, Y);
+		lr.train(X, Y, 0.01, 0.1, 500);
 
 		cv::Mat Y_hat = lr.predict(X);
 		cv::reduce((Y - Y_hat).mul(Y - Y_hat), error, 0, CV_REDUCE_AVG);
 		//cv::sqrt(error, error);
 	} else {
-		lr.train(trainX, trainY);
+		lr.train(trainX, trainY, 0.01, 0.1, 500);
 		
 		cv::Mat Y_hat = lr.predict(testX);
 		cv::reduce((testY - Y_hat).mul(testY - Y_hat), error, 0, CV_REDUCE_AVG);

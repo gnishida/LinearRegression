@@ -75,7 +75,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\opencv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\opencv\include;..\..\codebase;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -103,7 +103,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\opencv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\opencv\include;..\..\codebase;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -115,13 +115,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="LinearRegression.cpp" />
+    <ClCompile Include="..\..\codebase\LinearRegression.cpp" />
+    <ClCompile Include="..\..\codebase\MLUtils.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MLUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LinearRegression.h" />
-    <ClInclude Include="MLUtils.h" />
+    <ClInclude Include="..\..\codebase\LinearRegression.h" />
+    <ClInclude Include="..\..\codebase\MLUtils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
