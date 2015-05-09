@@ -5,23 +5,27 @@
 using namespace std;
 
 int main(int argc,char *argv[]) {
-	if (argc < 3) {
+	if (argc < 4) {
 		cout << endl;
-		cout << "Usage: " << argv[0] << " <filename> <test type>" << endl;
+		cout << "Usage: " << argv[0] << " <filename of X> <filename of Y> <test type>" << endl;
 		cout << "       test type: 0 -- use the same data for training and test" << endl;
-		cout << "       test type: 1 -- use 80% data for training and 20% for test" << endl;
+		cout << "       test type: 1 -- use 90% data for training and 10% for test" << endl;
 		cout << endl;
 
 		return -1;
 	}
 
-	int test_type = atoi(argv[2]);
+	int test_type = atoi(argv[3]);
 
 	// テストデータを読み込む
 	cv::Mat_<double> X;
 	cv::Mat_<double> Y;
-	if (!ml::loadDataset(argv[1], X, Y)) {
-		cout << "File does not exist." << endl;
+	if (!ml::loadDataset(argv[1], X)) {
+		cout << "File " << argv[1] << " does not exist." << endl;
+		return -1;
+	}
+	if (!ml::loadDataset(argv[2], Y)) {
+		cout << "File " << argv[2] << " does not exist." << endl;
 		return -1;
 	}
 
@@ -46,13 +50,11 @@ int main(int argc,char *argv[]) {
 
 		cv::Mat Y_hat = lr.predict(X);
 		cv::reduce((Y - Y_hat).mul(Y - Y_hat), error, 0, CV_REDUCE_AVG);
-		//cv::sqrt(error, error);
 	} else {
 		residue = lr.train(trainX, trainY);
 		
 		cv::Mat Y_hat = lr.predict(testX);
 		cv::reduce((testY - Y_hat).mul(testY - Y_hat), error, 0, CV_REDUCE_AVG);
-		//cv::sqrt(error, error);
 	}
 	
 	// テスト結果を出力
@@ -70,10 +72,10 @@ int main(int argc,char *argv[]) {
 	cout << "Error: " << endl << error << endl;
 	cout << endl;
 
-	cv::reduce(error, error, 1, CV_REDUCE_AVG);
+	cv::reduce(error, error, 1, CV_REDUCE_SUM);
 
 	cout << "-----------------------" << endl;
-	cout << "Avg error: " << sqrt(error(0, 0)) << endl;
+	cout << "RMSE: " << sqrt(error(0, 0)) << endl;
 	cout << endl;
 
 	return 0;
