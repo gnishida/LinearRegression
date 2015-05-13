@@ -42,6 +42,8 @@ int main(int argc,char *argv[]) {
 	ml::splitDataset(X, 0.9f, trainX, testX);
 	ml::splitDataset(Y, 0.9f, trainY, testY);
 
+	ofstream ofs("results.txt");
+
 	LinearRegression lr;
 	cv::Mat_<double> error;
 	double residue;
@@ -49,12 +51,24 @@ int main(int argc,char *argv[]) {
 		residue = lr.train(X, Y);
 
 		cv::Mat Y_hat = lr.predict(X);
-		cv::reduce((Y - Y_hat).mul(Y - Y_hat), error, 0, CV_REDUCE_AVG);
+		cv::reduce(ml::mat_square(Y - Y_hat), error, 1, CV_REDUCE_SUM);
+		cv::sqrt(error, error);
+		cv::reduce(error, error, 0, CV_REDUCE_AVG);
+
+		// 真値と予測値を保存
+		ml::saveDataset("trueY.txt", Y);
+		ml::saveDataset("predY.txt", Y_hat);
 	} else {
 		residue = lr.train(trainX, trainY);
 		
 		cv::Mat Y_hat = lr.predict(testX);
-		cv::reduce((testY - Y_hat).mul(testY - Y_hat), error, 0, CV_REDUCE_AVG);
+		cv::reduce(ml::mat_square(testY - Y_hat), error, 1, CV_REDUCE_SUM);
+		cv::sqrt(error, error);
+		cv::reduce(error, error, 0, CV_REDUCE_AVG);
+
+		// 真値と予測値を保存
+		ml::saveDataset("trueY.txt", testY);
+		ml::saveDataset("predY.txt", Y_hat);
 	}
 	
 	// テスト結果を出力
@@ -69,13 +83,7 @@ int main(int argc,char *argv[]) {
 	cout << "-----------------------" << endl;
 	cout << "Residue: " << residue << endl;
 	cout << "-----------------------" << endl;
-	cout << "Error: " << endl << error << endl;
-	cout << endl;
-
-	cv::reduce(error, error, 1, CV_REDUCE_SUM);
-
-	cout << "-----------------------" << endl;
-	cout << "RMSE: " << sqrt(error(0, 0)) << endl;
+	cout << "RMSE: " << error(0, 0) << endl;
 	cout << endl;
 
 	return 0;
